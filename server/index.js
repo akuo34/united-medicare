@@ -13,8 +13,10 @@ const port = 8000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
+// app.use(cors({credentials: "include", origin: 'http://localhost:3000'}));
 app.use(morgan('dev'));
-app.use(cookieParser(process.env.ADMIN_KEY));
+app.use(cookieParser(`${process.env.ADMIN_KEY}`));
+// app.use(cookieParser('Hy5n92sia887eeYl2u85CXs67ayILK2932A1NL9qR7MB17'));
 
 const auth = basicAuth({
   users: {
@@ -36,6 +38,8 @@ app.get('/authenticate', auth, (req, res) => {
 });
 
 app.get('/read-cookie', (req, res) => {
+  console.log(req.cookies);
+  console.log(req.signedCookies);
   if (req.signedCookies.name === 'admin') {
     res.send({ screen: 'admin' });
   } else {
@@ -49,12 +53,12 @@ app.get('/clear-cookie', (req, res) => {
 
 app.listen(port, () => console.log(`listening on port ${port}`));
 
-app.use('/', express.static(path.join(__dirname, '../client/dist')));
+app.use('/', express.static(path.join(__dirname, '../build')));
 
 app.use('/admin/api', router);
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'))
+  res.sendFile(path.join(__dirname, '../build/index.html'))
 });
 
 
