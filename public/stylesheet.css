@@ -1,3 +1,36 @@
+/* Client Home */
+
+.toolbar-main {
+  background-color: rgb(105, 105, 248);
+  width: 100vw;
+  height: 10vh;
+  display: flex;
+}
+
+.header-company {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.container-links {
+  border: 1px solid purple;
+  display: flex;
+  align-items: center;
+  justify-self: flex-end;
+  margin: 0 0 0 auto;
+}
+
+.link {
+  text-decoration: none;
+  margin: 0 20px;
+  color: white;
+}
+
+
+
+/* Admin Landing */
+
 .container-login {
   width: 300px;
   height: 200px;
