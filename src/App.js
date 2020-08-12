@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,28 +13,48 @@ const Contact = React.lazy(() => import('./Contact'));
 const Admin = React.lazy(() => import('./Admin'));
 
 const App = () => {
+
+  const [showToolbar, setShowToolbar] = useState(false);
+
+  const toolbarHandler = () => {
+    if (showToolbar) {
+      setShowToolbar(false);
+    } else {
+      setShowToolbar(true);
+    }
+  }
+
   return (
     <div className="App">
       <React.Suspense fallback={<span></span>}>
         <Router>
-          <div className="toolbar-main">
-            <div className="header-company">
-              <Link className="link" to="/">United Medicare</Link>
+          <div className="container-page">
+            <div className="toolbar-main">
+              <div className="header-company">
+                <Link className="link trademark" to="/">United Medicare</Link>
+              </div>
+              <div className="container-links">
+                <Link className="link" to="/">Home</Link>
+                <Link className="link" to="/about">About</Link>
+                <Link className="link" to="/products">Products</Link>
+                <Link className="link" to="/contact">Contact</Link>
+              </div>
+              <img onClick={toolbarHandler} className="hamburger" src="/hamburger_button_white.svg" alt="hamburger button" />
             </div>
-            <div className="container-links">
-              <Link className="link" to="/">Home</Link>
-              <Link className="link" to="/about">About</Link>
-              <Link className="link" to="/products">Products</Link>
-              <Link className="link" to="/contact">Contact</Link>
+            <div className={showToolbar ? "container-links-small-device" : "container-links-small-device hidden"}>
+              <Link onClick={toolbarHandler} className="link dropdown" to="/">Home</Link>
+              <Link onClick={toolbarHandler} className="link dropdown" to="/about">About</Link>
+              <Link onClick={toolbarHandler} className="link dropdown" to="/products">Products</Link>
+              <Link onClick={toolbarHandler} className="link dropdown" to="/contact">Contact</Link>
             </div>
+            <Switch>
+              <Route path="/admin" render={() => <Admin />} />
+              <Route path="/contact" render={() => <Contact />} />
+              <Route path="/products" render={() => <Products />} />
+              <Route path="/about" render={() => <About />} />
+              <Route exact path="/" render={() => <Home />} />
+            </Switch>
           </div>
-          <Switch>
-            <Route path="/admin" render={() => <Admin />} />
-            <Route path="/contact" render={() => <Contact />} />
-            <Route path="/products" render={() => <Products />} />
-            <Route path="/about" render={() => <About />} />
-            <Route exact path="/" render={() => <Home />} />
-          </Switch>
         </Router>
       </React.Suspense>
     </div>
