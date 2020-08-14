@@ -6,11 +6,16 @@ import {
   Link
 } from "react-router-dom";
 
-const Home = React.lazy(() => import('./Home'));
-const About = React.lazy(() => import('./About'));
-const Products = React.lazy(() => import('./Products'));
-const Contact = React.lazy(() => import('./Contact'));
-const Admin = React.lazy(() => import('./Admin'));
+import Home from './Home';
+import About from './About';
+import Products from './Products';
+import Contact from './Contact';
+import Admin from './Admin';
+// const Home = React.lazy(() => import('./Home'));
+// const About = React.lazy(() => import('./About'));
+// const Products = React.lazy(() => import('./Products'));
+// const Contact = React.lazy(() => import('./Contact'));
+// const Admin = React.lazy(() => import('./Admin'));
 
 const App = () => {
 
@@ -48,11 +53,26 @@ const App = () => {
               <Link onClick={toolbarHandler} className="link dropdown" to="/contact">Contact</Link>
             </div>
             <Switch>
-              <Route path="/admin" render={() => <Admin />} />
+              {/* <Route path="/admin" render={() => <Admin />} />
               <Route path="/contact" render={() => <Contact />} />
               <Route path="/products" render={() => <Products />} />
               <Route path="/about" render={() => <About />} />
-              <Route exact path="/" render={() => <Home />} />
+              <Route exact path="/" render={() => <Home />} /> */}
+              <Route path="/admin">
+                <Admin />
+              </Route>
+              <Route path="/contact">
+                <Contact />
+              </Route>
+              <Route path="/products">
+                <Products />
+              </Route>
+              <Route path="/about">
+                <About />
+              </Route>
+              <Route exact path="/">
+                <Home />
+              </Route>
             </Switch>
           </div>
         </Router>
