@@ -36,7 +36,7 @@ const App = () => {
           <div className="container-page">
             <div className="toolbar-main">
               <div className="header-company">
-                <Link className="link trademark" to="/">United Medicare</Link>
+                <Link className="link trademark" to="/">United Medi-Care Inc.</Link>
               </div>
               <div className="container-links">
                 <Link className="link" to="/">Home</Link>

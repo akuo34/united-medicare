@@ -55,6 +55,10 @@
   color: white;
 }
 
+.link:hover {
+  cursor: pointer;
+}
+
 .trademark {
   margin: 0 0 0 calc(10px + 1vw);
 }
@@ -113,6 +117,12 @@
   width: 300px;
   height: 200px;
   border: 1px solid red;
+}
+
+.admin {
+  position: absolute;
+  top: 0;
+  z-index: 5;
 }
 
 
