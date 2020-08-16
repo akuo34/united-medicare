@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-  fireBaseUrl: String,
-  title: String,
+  images: [{
+    fireBaseUrl: String,
+    filename: String
+  }],
+  name: String,
   description: String,
   price: Number,
-  filename: String,
-  index: Number
+  // index: Number
 });
 
 module.exports.productSchema = productSchema;

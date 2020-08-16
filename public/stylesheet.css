@@ -10,13 +10,22 @@
   src: url(Doubleplus-6Yy4g.ttf);
 }
 
+h2 {
+  text-align: center;
+}
+
+h4 {
+  margin: 0 0 20px 0;
+}
 /* Client Home */
 
 .container-page {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .toolbar-main {
@@ -24,6 +33,7 @@
   width: 100vw;
   height: 10vh;
   display: flex;
+  position: fixed;
 }
 
 .header-company {
@@ -114,15 +124,73 @@
 /* Admin Landing */
 
 .container-login {
+  position: absolute;
+  top: calc(50vh - 100px);
+  left: calc(50vw - 150px);
   width: 300px;
   height: 200px;
-  border: 1px solid red;
+  background-color: rgb(196, 193, 193);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+#form-login {
+  margin: 0;
+}
+
+.input-login {
+  margin-bottom: 20px;
+  width: 60%;
+}
+
+.toolbar-admin {
+  background-color: rgb(105, 105, 248);
+  width: 100vw;
+  height: 10vh;
+  display: flex;
 }
 
 .admin {
-  position: absolute;
+  position: fixed;
   top: 0;
   z-index: 5;
+}
+
+.page-products-admin {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-products {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+  border: 1px solid red;
+  padding-top: 20px;
+}
+
+.input-products {
+  width: 80%;
+  margin: 0 auto 20px auto;
+}
+
+.row-products {
+  display: flex;
+} 
+
+.image-products {
+  height: 200px;
+}
+
+.details-products {
+  display: flex;
+  flex-direction: column;
 }
 
 

@@ -20,7 +20,7 @@ const Login = (props) => {
         />
         <div className="container-landing-button">
           {/* <Link className="link-landing" to="/admin/passwordReset">Forgot your password?</Link> */}
-          <button className="button-login" type="submit">Sign In</button>
+          <button type="submit">Sign In</button>
         </div>
       </form>
     </div>

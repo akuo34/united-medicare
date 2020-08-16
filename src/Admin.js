@@ -92,13 +92,16 @@ const Admin = () => {
   }
 
   return (
+    // <div style={{"display":"flex", "height":"100vh", "width":"100vw", "position":"absolute", "top":"0"}}>
     <div>
+      <div style={{"height":"10vh"}}></div>
+      <h2>Admin Console</h2>
       {
         user === 'admin' ?
           <div>
             <Router>
-              <div className="container-page admin">
-                <div className="toolbar-main">
+              <div className="container-page">
+                <div className="toolbar-main admin">
                   <div className="header-company">
                     {/* <Link className="link trademark" to="/">United Medicare</Link> */}
                     <span onClick={returnHome} className="link trademark">United Medi-Care Inc.</span>
@@ -141,7 +144,6 @@ const Admin = () => {
               </div>
             </Router>
           </div>
-          // <ProductManager /> 
           :
           user === 'auth' ?
             <Login signInHandler={signInHandler} /> : null

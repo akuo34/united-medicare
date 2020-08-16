@@ -3,13 +3,13 @@ const model = require('../database/model');
 module.exports = {
   getProducts: (req, res) => {
     model.getProducts()
-      .then(response => res.status(200).send(response.data))
+      .then(response => res.status(200).send(response))
       .catch(err => res.status(404).send(err));
   },
   postProduct: (req, res) => {
-    const { fireBaseUrl, title, description, price, filename, index } = req.body;
+    const { images, name, description, price } = req.body;
 
-    model.postProduct(fireBaseUrl, title, description, price, filename, index)
+    model.postProduct(images, name, description, price)
       .then(() => res.status(201).send('posted to database'))
       .catch(err => res.status(400).send(err));
   },
