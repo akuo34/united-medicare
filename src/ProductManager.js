@@ -7,6 +7,7 @@ const ProductManager = () => {
   const [imageAsFile, setImageAsFile] = useState('');
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
+  const [showEdit, setShowEdit] = useState(null);
 
 
   useEffect(() => {
@@ -78,6 +79,16 @@ const ProductManager = () => {
     document.getElementById('form-products').reset();
   };
 
+  const showEditHandler = (e) => {
+    const _id = e.target.dataset.id;
+
+    if (showEdit === _id) {
+      setShowEdit(null);
+    } else {
+      setShowEdit(_id);
+    }
+  }
+
   return (
     <div className="page-products-admin">
       <h2>Products Manager</h2>
@@ -100,15 +111,31 @@ const ProductManager = () => {
           <button>Upload to Store</button>
         </div>
       </form>
-      { products.length ?
+      {products.length ?
         products.map(product => {
           return (
             <div className="row-products">
-              <img className="image-products" src={product.images[0].fireBaseUrl} alt="product"></img>
+              <div className="container-image-products">
+                <img className="image-products" src={product.images[0].fireBaseUrl} alt="product"></img>
+              </div>
               <div className="details-products">
-                <p>{product.name}</p>
-                <p>{product.description}</p>
-                <p>{product.price}</p>
+                <p><b>Product Name: </b>{product.name}</p>
+                <p><b>Description: </b>{product.description}</p>
+                <p><b>Unit Price: </b>${product.price ? product.price.toFixed(2) : null}</p>
+                <div style={{ "margin": "0 0 20px auto", "alignSelf": "flexEnd" }}>
+                  <button data-id={product._id} onClick={showEditHandler} style={{ "marginRight": "10px" }}>Edit</button>
+                  <button>Delete</button>
+                </div>
+                {
+                  showEdit === product._id ?
+                    <div style={{"display":"flex", "flexDirection":"column"}}>
+                      <input style={{ "marginBottom": "10px" }} type="text" name="name" placeholder="Product Name" />
+                      <textarea style={{ "marginBottom": "10px", "height": "60px" }} name="description" placeholder="Description" />
+                      <input style={{ "marginBottom": "20px" }} type="number" step="0.01" name="price" min="0" placeholder="Price" />
+                      <button style={{ "margin": "0 0 0 auto", "alignSelf": "flexEnd" }}>Submit Changes</button>
+                    </div> :
+                    null
+                }
               </div>
             </div>
           )

@@ -92,10 +92,8 @@ const Admin = () => {
   }
 
   return (
-    // <div style={{"display":"flex", "height":"100vh", "width":"100vw", "position":"absolute", "top":"0"}}>
     <div>
-      <div style={{"height":"10vh"}}></div>
-      <h2>Admin Console</h2>
+      <h3>Admin Console</h3>
       {
         user === 'admin' ?
           <div>

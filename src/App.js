@@ -52,6 +52,7 @@ const App = () => {
               <Link onClick={toolbarHandler} className="link dropdown" to="/products">Products</Link>
               <Link onClick={toolbarHandler} className="link dropdown" to="/contact">Contact</Link>
             </div>
+            <div style={{"height":"10vh"}}></div>
             <Switch>
               {/* <Route path="/admin" render={() => <Admin />} />
               <Route path="/contact" render={() => <Contact />} />
