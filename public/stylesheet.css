@@ -200,7 +200,7 @@ p {
 .row-products {
   display: flex;
   flex-wrap: wrap;
-  width: 90vw;
+  width: calc(90vw + 20px);
   justify-content: center;
   margin-bottom: 40px;
   border: 1px solid blue;
