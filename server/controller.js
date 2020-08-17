@@ -9,7 +9,7 @@ module.exports = {
   postProduct: (req, res) => {
     const { images, name, description, price } = req.body;
 
-    model.postProduct(images, name, description, price)
+    model.postProduct(images, name, description, price, [], [])
       .then(() => res.status(201).send('posted to database'))
       .catch(err => res.status(400).send(err));
   },

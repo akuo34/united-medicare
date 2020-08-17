@@ -89,6 +89,27 @@ const ProductManager = () => {
     }
   }
 
+  const deleteHandler = (e) => {
+    const _id = e.target.dataset.id;
+
+    Axios
+      .delete(`http://192.168.0.4:8000/admin/api/products/${_id}`)
+      .then(response => {
+
+        let images = products.filter(product => product._id === _id )[0].images;
+
+        images.forEach(image => {
+          storage.ref('products').child(image.filename).delete()
+            .then(() => console.log('deleted from firebase'))
+            .catch(err => console.error(err));
+        })
+
+        console.log(response);
+        getProducts();
+      })
+      .catch(err => console.error(err));
+  }
+
   return (
     <div className="page-products-admin">
       <h2>Products Manager</h2>
@@ -122,9 +143,14 @@ const ProductManager = () => {
                 <p><b>Product Name: </b>{product.name}</p>
                 <p><b>Description: </b>{product.description}</p>
                 <p><b>Unit Price: </b>${product.price ? product.price.toFixed(2) : null}</p>
+                <div style={{"marginBottom":"20px"}}>
+                  <b>Features: </b>{product.features.length === 0 ? "N/A" : null}
+                </div>
                 <div style={{ "margin": "0 0 20px auto", "alignSelf": "flexEnd" }}>
+                  <button style={{ "marginRight": "10px" }}>Add Features</button>
+                  <button style={{ "marginRight": "10px" }}>Add Specs</button>
                   <button data-id={product._id} onClick={showEditHandler} style={{ "marginRight": "10px" }}>Edit</button>
-                  <button>Delete</button>
+                  <button data-product={product} data-id={product._id} onClick={deleteHandler}>Delete</button>
                 </div>
                 {
                   showEdit === product._id ?
