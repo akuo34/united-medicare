@@ -32,11 +32,20 @@ h4 {
 p {
   margin-top: 0;
 }
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+}
+
 /* Client Home */
 
 .container-page {
   width: 100vw;
-  min-height: 100vh;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -68,6 +77,7 @@ p {
   margin: 0 0 0 auto;
   box-sizing: border-box;
   padding-right: calc(10px + 1vw);
+  padding-top: 3px;
 }
 
 .container-links-small-device {
@@ -77,7 +87,7 @@ p {
 
 .link {
   text-decoration: none;
-  margin-left: 20px;
+  margin: auto 0 auto 20px;
   color: white;
 }
 
@@ -87,6 +97,7 @@ p {
 
 .trademark {
   margin: 0 0 0 calc(10px + 1vw);
+  font-size: calc(16px + 1vh);
 }
 
 .hamburger {
@@ -193,6 +204,8 @@ p {
 }
 
 .input-products {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
   width: 80%;
   margin: 0 auto 20px auto;
 }
@@ -200,17 +213,18 @@ p {
 .row-products {
   display: flex;
   flex-wrap: wrap;
-  width: calc(90vw + 20px);
-  justify-content: center;
+  width: 95%;
+  justify-content: space-evenly;
   margin-bottom: 40px;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 } 
 
 .container-image-products {
   width: min(90vw, 300px);
   height: 200px;
   overflow: hidden;
-  margin: 0 10px;
+  margin: 0 auto 10px auto;
+  background-color: rgb(236, 234, 234);
 }
 
 .image-products {
@@ -223,14 +237,14 @@ p {
   display: flex;
   flex-direction: column;
   width: min(500px, 90vw);
-  border: 1px solid red;
-  margin: 0 10px;
+  /* border: 1px solid red; */
+  margin: 0 auto;
 }
 
 
 /* For small devices */
 
-@media only screen and (max-device-width: 567px) {
+@media only screen and (max-device-width: 568px) {
 /* @media only screen and (max-device-width: 823px) { */
 
   .container-links {
