@@ -9,11 +9,8 @@ import Axios from 'axios';
 
 import Login from './Login';
 import ProductManager from './ProductManager';
-import ContactManager from './ContactManager';
 import HomeManager from './HomeManager';
 import AboutManager from './AboutManager';
-// const Login = React.lazy(() => import('./Login'));
-// const ProductManager = React.lazy(() => import('./ProductManager'));
 
 const Admin = () => {
 
@@ -108,7 +105,6 @@ const Admin = () => {
                     <Link className="link" to="/admin/home">Home</Link>
                     <Link className="link" to="/admin/about">About</Link>
                     <Link className="link" to="/admin">Products</Link>
-                    <Link className="link" to="/admin/contact">Contact</Link>
                     <span onClick={logout} className="link">Logout</span>
                   </div>
                   <img onClick={toolbarHandler} className="hamburger" src="/hamburger_button_white.svg" alt="hamburger button" />
@@ -117,7 +113,6 @@ const Admin = () => {
                   <Link onClick={toolbarHandler} className="link dropdown" to="/admin/home">Home</Link>
                   <Link onClick={toolbarHandler} className="link dropdown" to="/admin/about">About</Link>
                   <Link onClick={toolbarHandler} className="link dropdown" to="/admin">Products</Link>
-                  <Link onClick={toolbarHandler} className="link dropdown" to="/admin/contact">Contact</Link>
                   <span onClick={logout} className="link dropdown">Log out</span>
                 </div>
                 <Switch>
@@ -128,9 +123,6 @@ const Admin = () => {
                       <Route exact path="/" render={() => <Home />} /> */}
                   <Route path="/admin/home">
                     <HomeManager />
-                  </Route>
-                  <Route path="/admin/contact">
-                    <ContactManager />
                   </Route>
                   <Route path="/admin/about">
                     <AboutManager />

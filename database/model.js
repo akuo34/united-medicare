@@ -1,8 +1,12 @@
-const { productItem } = require('./');
+const { productItem, aboutItem } = require('./');
 
 module.exports = {
   getProducts: () => productItem.find().sort([['index', 1]]),
-  postProduct: (images, name, prodId, description, price, features, specs) => productItem.create({ images, name, prodId, description, price, features, specs }),
+  postProduct: (images, name, prodId, description, price, features, specs, index) => productItem.create({ images, name, prodId, description, price, features, specs, index }),
   putProduct: (request, _id) => productItem.findOneAndUpdate({ _id }, request),
-  deleteProduct: (_id) => productItem.findOneAndDelete({ _id })
+  deleteProduct: (_id) => productItem.findOneAndDelete({ _id }),
+  getAbout: () => aboutItem.find(),
+  postAbout: (images, about) => aboutItem.create({ images, about }),
+  putAbout: (request, _id) => aboutItem.findOneAndUpdate({ _id }, request),
+  deleteAbout: (_id) => aboutItem.findOneAndDelete({ _id })
 }

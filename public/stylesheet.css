@@ -13,15 +13,17 @@
 h2 {
   text-align: center;
   font-family: josefin-sans-bold;
-  margin-top: 40px;
+  margin-top: calc(20px + 1vw);
   margin-bottom: 0px;
+  font-size: calc(16px + 0.8vw);
 }
 
 h3 {
   text-align: center;
   font-family: josefin-sans-bold;
-  margin-top: 40px;
+  margin-top: calc(20px + 1vw);
   margin-bottom: 0px;
+  font-size: calc(14px + 0.6vw);
 }
 
 h4 {
@@ -51,6 +53,7 @@ p {
   flex-direction: column;
   align-items: center;
   position: relative;
+  min-height: 90vh;
 }
 
 .toolbar-main {
@@ -186,21 +189,21 @@ p {
   z-index: 5;
 }
 
-.page-products-admin {
+.page-admin {
   width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.form-products {
+.form-admin {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: min(500px, 90%);
   background-color: rgb(196, 193, 193);
   padding-top: 20px;
-  margin: 40px auto;
+  margin: calc(20px + 1vw) auto;
 }
 
 .input-products {
@@ -212,7 +215,7 @@ p {
 
 .row-products {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   width: 95%;
   justify-content: space-evenly;
   margin-bottom: 40px;
@@ -236,15 +239,33 @@ p {
 .details-products {
   display: flex;
   flex-direction: column;
-  width: min(500px, 90vw);
+  width: min(380px, 90vw);
   /* border: 1px solid red; */
   margin: 0 auto;
+}
+
+.container-image-about {
+  height: min(50vh, 90vw);
+  width: min(500px, 90vw);
+  margin-bottom: 10px;
+  background-color: rgb(236, 234, 234);
+}
+
+.image-about {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.paragraph-about {
+  width: min(500px, 90vw);
+  flex-wrap: wrap;
 }
 
 
 /* For small devices */
 
-@media only screen and (max-device-width: 568px) {
+@media only screen and (max-device-width: 600px) {
 /* @media only screen and (max-device-width: 823px) { */
 
   .container-links {
@@ -288,4 +309,17 @@ p {
     margin: auto 10px auto auto;
     align-self: center;
   }
+}
+
+@media only screen and (max-device-width: 731px) {
+
+  .row-products {
+    display: flex;
+    flex-wrap: wrap;
+    width: 95%;
+    justify-content: space-evenly;
+    margin-bottom: 40px;
+    /* border: 1px solid blue; */
+  } 
+
 }

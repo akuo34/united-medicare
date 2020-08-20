@@ -10,8 +10,19 @@ const productSchema = new mongoose.Schema({
   description: String,
   price: Number,
   features: [String],
-  specs: [String]
-  // index: Number
+  specs: [String],
+  index: Number
+});
+
+const aboutSchema = new mongoose.Schema({
+  images: [{
+    fireBaseUrl: String,
+    filename: String
+  }],
+  about: String,
+  phone: String,
+  email: String
 });
 
 module.exports.productSchema = productSchema;
+module.exports.aboutSchema = aboutSchema;

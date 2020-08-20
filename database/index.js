@@ -9,5 +9,7 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', () => console.log('United Medi-care connected'));
 
 const productItem = mongoose.model('ProductItem', schema.productSchema);
+const aboutItem = mongoose.model('AboutItem', schema.aboutSchema);
 
 module.exports.productItem = productItem;
+module.exports.aboutItem = aboutItem;
