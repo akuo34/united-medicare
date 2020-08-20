@@ -11,7 +11,12 @@ const productSchema = new mongoose.Schema({
   price: Number,
   features: [String],
   specs: [String],
-  index: Number
+  index: Number,
+  downloads: [{
+    fireBaseUrl: String,
+    filename: String,
+    title: String,
+  }]
 });
 
 const aboutSchema = new mongoose.Schema({

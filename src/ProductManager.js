@@ -11,6 +11,7 @@ const ProductManager = () => {
   const [showEdit, setShowEdit] = useState(null);
   const [showFeatures, setShowFeatures] = useState(null);
   const [showSpecs, setShowSpecs] = useState(null);
+  const [showDownloads, setShowDownloads] = useState(null);
   const [indexes, setIndexes] = useState({});
 
   useEffect(() => {
@@ -366,6 +367,83 @@ const ProductManager = () => {
       .catch(err => console.error(err));
   }
 
+  const addDownload = (e) => {
+    e.preventDefault();
+
+    const _id = e.target.dataset.id;
+    const index = e.target.dataset.index;
+    const title = e.target.title.value;
+
+    setLoading(true);
+
+    console.log('start of upload');
+
+    if (imageAsFile === '') {
+      setLoading(false);
+      console.error(`not an image, the image file is a ${typeof (imageAsFile)}`);
+      return;
+    };
+
+    let randomizer = (Math.floor(Math.random() * (1000 - 1)) + 1).toString();
+    let split = imageAsFile.name.split('.');
+    const filename = split[0] + randomizer + split[1];
+
+    const uploadTask = storage.ref(`/products/${filename}`).put(imageAsFile);
+
+    uploadTask.on('state_changed', (snapshot) => {
+      console.log(snapshot)
+    }, (err) => {
+      console.log(err);
+    }, () => {
+      console.log('uploaded to firebase')
+      storage.ref('products').child(filename).getDownloadURL()
+        .then(fireBaseUrl => {
+
+          let downloads = products[index].downloads;
+          downloads.push({ title, fireBaseUrl, filename });
+
+          Axios
+            .put(`http://192.168.0.4:8000/admin/api/products/${_id}`, { downloads })
+            .then(response => {
+              getProducts();
+              setShowDownloads(_id);
+              setImageAsFile('');
+              setLoading(false);
+            })
+            .catch(err => console.error(err))
+        });
+    });
+
+    document.getElementById('form-downloads').reset();
+  }
+
+  const showDownloadsHandler = (e) => {
+    let _id = e.target.dataset.id;
+
+    if (showDownloads === _id) {
+      setShowDownloads(null);
+    } else {
+      setShowDownloads(_id);
+    }
+  }
+
+  const deleteDownload = (e) => {
+    let _id = e.target.dataset.id;
+    let index = parseInt(e.target.dataset.index);
+    let prodIndex = parseInt(e.target.dataset.prodindex);
+    console.log(prodIndex);
+    let downloads = products[prodIndex].downloads;
+
+    downloads.splice(index, 1);
+
+    Axios
+      .put(`http://192.168.0.4:8000/admin/api/products/${_id}`, { downloads })
+      .then(response => {
+        getProducts();
+      })
+      .catch(err => console.error(err));
+  }
+
   return (
     <div className="page-admin">
       <h2>Products Manager</h2>
@@ -456,7 +534,7 @@ const ProductManager = () => {
                 <div className="details-products">
                   <div style={{ "marginBottom": "10px", "display": "flex" }}>
                     <div>
-                      <b>Features: </b>{product.features.length + ' features'}
+                      <b>Features: </b>{product.features.length === 1 ? '1 feature' : product.features.length + ' features'}
                     </div>
                     <div style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto" }}>
                       {
@@ -492,7 +570,7 @@ const ProductManager = () => {
                   }
                   <div style={{ "marginBottom": "10px", "marginTop": "10px", "display": "flex" }}>
                     <div>
-                      <b>Specs: </b>{product.specs.length + ' specs'}
+                      <b>Specs: </b>{product.specs.length === 1 ? '1 spec' : product.specs.length + ' specs'}
                     </div>
                     <div style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto" }}>
                       {
@@ -524,6 +602,49 @@ const ProductManager = () => {
                       <form id="form-specs" onSubmit={addSpec} data-id={product._id} style={{ "display": "flex", "width": "100%", "marginBottom": "20px", "marginTop": "10px" }}>
                         <input style={{ "width": "80%" }} type="text" name="spec" placeholder="Spec" required></input>
                         <button style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto" }} type="submit">Add</button>
+                      </form> : null
+                  }
+                  <div style={{ "marginBottom": "10px", "marginTop": "10px", "display": "flex" }}>
+                    <div>
+                      <b>Downloads: </b>{product.downloads.length + ' downloads'}
+                    </div>
+                    <div style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto" }}>
+                      {
+                        showDownloads !== product._id && product.downloads.length ?
+                          <button data-id={product._id} onClick={showDownloadsHandler}>Show</button> : null
+                      }
+                      {
+                        showDownloads === product._id && product.downloads.length ?
+                          <button data-id={product._id} onClick={showDownloadsHandler} style={{ "marginLeft": "10px" }}>Hide</button> : null
+                      }
+                    </div>
+                  </div>
+                  {product.downloads.length && showDownloads === product._id ?
+                    <ul style={{ "marginTop": "0" }}>
+                      {
+                        product.downloads.map((download, index) => {
+                          return (
+                            <div style={{ "display": "flex", "marginBottom": "10px" }}>
+                              <li style={{ "width": "80%" }}>
+                                <a href={download.fireBaseUrl} target="_blank">
+                                  {download.title}
+                                </a>
+                              </li>
+                              <button data-id={product._id} data-index={index} data-prodindex={product.index} onClick={deleteDownload} style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto", "height": "21px" }}>Delete</button>
+                            </div>
+                          )
+                        })
+                      }
+                    </ul> : null
+                  }
+                  {
+                    product.downloads.length === 0 || showDownloads === product._id ?
+                      <form id="form-downloads" data-id={product._id} data-index={product.index} className="column" onSubmit={addDownload} style={{ "display": "flex", "width": "100%", "marginBottom": "20px", "marginTop": "10px" }}>
+                        <input style={{ "marginBottom": "10px" }} type="text" placeholder="Title" name="title" required/>
+                        <div className="row">
+                          <input type="file" onChange={handleImageAsFile} />
+                          <button style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto" }} type="submit">Add</button>
+                        </div>
                       </form> : null
                   }
                 </div>

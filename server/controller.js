@@ -8,7 +8,7 @@ module.exports = {
   },
   postProduct: (req, res) => {
     const { images, name, prodId, description, price, index } = req.body;
-    model.postProduct(images, name, prodId, description, price, [], [], index)
+    model.postProduct(images, name, prodId, description, price, [], [], index, [])
       .then(() => res.status(201).send('posted to database'))
       .catch(err => res.status(400).send(err));
   },
