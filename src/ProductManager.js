@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { storage } from './firebase/firebase.js';
 import Axios from 'axios';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const ProductManager = () => {
 
@@ -16,7 +17,7 @@ const ProductManager = () => {
     getProducts();
   }, []);
 
-  const getProducts = () => {
+  const getProducts = (id, last) => {
     Axios
       .get('http://192.168.0.4:8000/admin/api/products')
       .then(response => {
@@ -27,6 +28,8 @@ const ProductManager = () => {
             copy[product._id] = 0;
           } else if (copy[product._id] > product.images.length - 1 && copy[product._id] !== 0) {
             copy[product._id]--;
+          } else if (last && id === product._id) {
+            copy[id] = product.images.length - 1;
           }
         })
 
@@ -83,6 +86,7 @@ const ProductManager = () => {
             .then(response => {
               getProducts();
               setImageAsFile('');
+              setLoading(false);
             })
             .catch(err => console.error(err))
         });
@@ -251,6 +255,7 @@ const ProductManager = () => {
     const _id = e.target.dataset.id;
 
     console.log('start of upload');
+    setLoading(true);
 
     if (imageAsFile === '') {
       setLoading(false);
@@ -279,8 +284,9 @@ const ProductManager = () => {
           Axios
             .put(`http://192.168.0.4:8000/admin/api/products/${_id}`, { images })
             .then(response => {
-              getProducts();
+              getProducts(_id, true);
               setImageAsFile('');
+              setLoading(false);
             })
             .catch(err => console.error(err))
         });
@@ -341,7 +347,7 @@ const ProductManager = () => {
       id2 = products[index2]._id;
     } else if (action === 'down' && index1 !== products.length - 1) {
       index2 = parseInt(index1) + 1;
-      id2 = products[index2]._id; 
+      id2 = products[index2]._id;
     } else {
       return;
     }
@@ -363,6 +369,13 @@ const ProductManager = () => {
   return (
     <div className="page-admin">
       <h2>Products Manager</h2>
+      <div className={loading ? "container-loader" : "container-loader hidden"}>
+        <PulseLoader
+          size={30}
+          color={"#363636"}
+          loading={loading}
+        />
+      </div>
       <form id="form-products" className="form-admin" onSubmit={handleFireBaseUpload}>
         <h4>Create new item</h4>
         <input className="input-products" type="text" name="name" placeholder="Product Name" />
@@ -416,11 +429,11 @@ const ProductManager = () => {
                     <div style={{ "margin": "0 auto 20px 0", "alignSelf": "flexStart" }}>
                       {
                         product.index !== 0 ?
-                        <button onClick={moveHandler} data-action="up" data-index={product.index} style={{ "marginRight": "10px" }}>Move Up</button> : null
+                          <button onClick={moveHandler} data-action="up" data-index={product.index} style={{ "marginRight": "10px" }}>Move Up</button> : null
                       }
                       {
                         product.index !== products.length - 1 ?
-                        <button onClick={moveHandler} data-action="down" data-index={product.index} style={{ "marginRight": "10px" }}>Move Down</button> : null
+                          <button onClick={moveHandler} data-action="down" data-index={product.index} style={{ "marginRight": "10px" }}>Move Down</button> : null
                       }
                     </div>
                     <div style={{ "margin": "0 0 20px auto", "alignSelf": "flexEnd" }}>

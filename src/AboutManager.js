@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { storage } from './firebase/firebase.js';
 import Axios from 'axios';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const AboutManager = () => {
 
   const [imageAsFile, setImageAsFile] = useState('');
   const [about, setAbout] = useState({});
   const [index, setIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getAbout();
@@ -39,12 +41,11 @@ const AboutManager = () => {
 
     const about = e.target.about.value;
 
-    // setLoading(true);
-
+    setLoading(true);
     console.log('start of upload');
 
     if (imageAsFile === '') {
-      // setLoading(false);
+      setLoading(false);
       console.error(`not an image, the image file is a ${typeof (imageAsFile)}`);
       return;
     };
@@ -72,6 +73,7 @@ const AboutManager = () => {
             .then(response => {
               getAbout();
               setImageAsFile('');
+              setLoading(false);
             })
             .catch(err => console.error(err))
         });
@@ -86,9 +88,10 @@ const AboutManager = () => {
     const _id = about._id;
 
     console.log('start of upload');
+    setLoading(true);
 
     if (imageAsFile === '') {
-      // setLoading(false);
+      setLoading(false);
       console.error(`not an image, the image file is a ${typeof (imageAsFile)}`);
       return;
     };
@@ -116,6 +119,8 @@ const AboutManager = () => {
             .then(response => {
               getAbout();
               setImageAsFile('');
+              setLoading(false);
+              setIndex(about.images.length - 1);
             })
             .catch(err => console.error(err))
         });
@@ -202,6 +207,13 @@ const AboutManager = () => {
   return (
     <div className="page-admin">
       <h2>About Manager</h2>
+      <div className={loading ? "container-loader" : "container-loader hidden"}>
+        <PulseLoader
+          size={30}
+          color={"#363636"}
+          loading={loading}
+        />
+      </div>
       {
         Object.keys(about).length === 0 ?
           <form id="form-about" className="form-admin" onSubmit={handleFireBaseUpload}>
