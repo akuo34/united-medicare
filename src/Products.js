@@ -6,6 +6,8 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [showProduct, setShowProduct] = useState(null);
   const [index, setIndex] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [animation, setAnimation] = useState('modal-hidden');
 
   useEffect(() => {
     Axios
@@ -36,8 +38,28 @@ const Products = () => {
     setIndex(index);
   }
 
+  const modalHandler = (e) => {
+    if (showModal) {
+      setShowModal(false);
+      setAnimation('fadeout');
+      setAnimation('modal-hidden');
+      document.body.style.overflow = "auto";
+    } else {
+      setShowModal(true);
+      setAnimation('active');
+      document.body.style.overflow = "hidden";
+    }
+  }
+
   return (
     <div className="page-admin">
+      {
+        showModal ?
+        <div onClick={modalHandler} className={animation === "active" ? "modal active" : `modal ${animation}` } >
+          <img className={animation === "active" ? "modal-image active" : `modal-image ${animation}`} src={showProduct && showProduct.images.length ? showProduct.images[index].fireBaseUrl : null} alt="modal_image" />
+          <div className="modal-background"></div>
+        </div> : null
+      }
       <h2 style={{ "marginBottom": "calc(20px + 1vw)" }}>{ showProduct ? "Product Details" : "Products" }</h2>
       <div className="grid">
         {
@@ -56,7 +78,7 @@ const Products = () => {
           <div className="row-about">
             <div className="column">
               <div className="container-image-about-admin" style={{ "alignSelf": "flexStart", "margin": "0 0 20px 0" }}>
-                <img className="image-about" src={showProduct.images[index].fireBaseUrl} alt="product-view" />
+                <img onClick={modalHandler} className="image-about" src={showProduct.images[index].fireBaseUrl} alt="product-view" />
               </div>
               <div className="row" style={{ "flexWrap": "wrap", "justifyContent": "spaceEvenly" }}>
                 {
