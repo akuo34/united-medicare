@@ -231,9 +231,9 @@ const AboutManager = () => {
             </div>
           </form>
           :
-          <div className="row-products" style={{ "marginTop": "calc(20px + 1vw)" }}>
+          <div className="row-about" style={{ "marginTop": "calc(20px + 1vw)" }}>
             <div className="column" style={{ "maxWidth": "90vw" }}>
-              <div className="container-image-about">
+              <div className="container-image-about-admin">
                 <img className="image-about" src={about.images.length ? about.images[index].fireBaseUrl : "/placeholder-image.png"} alt="about"></img>
               </div>
               <form id="form-about-add-photo" onSubmit={addPhoto} className="row">

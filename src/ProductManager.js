@@ -146,6 +146,12 @@ const ProductManager = () => {
             .catch(err => console.error(err));
         })
 
+        products[index].downloads.forEach(download => {
+          storage.ref('products').child(download.filename).delete()
+            .then(() => console.log('deleted from firebase'))
+            .catch(err => console.error(err));
+        })
+
         for (let i = index + 1; i < products.length; i++) {
           let id = products[i]._id;
           let newIndex = i - 1;
@@ -431,15 +437,20 @@ const ProductManager = () => {
     let _id = e.target.dataset.id;
     let index = parseInt(e.target.dataset.index);
     let prodIndex = parseInt(e.target.dataset.prodindex);
-    console.log(prodIndex);
     let downloads = products[prodIndex].downloads;
+    let filename = downloads[index].filename;
 
     downloads.splice(index, 1);
 
     Axios
       .put(`http://192.168.0.4:8000/admin/api/products/${_id}`, { downloads })
       .then(response => {
+
         getProducts();
+
+        storage.ref('products').child(filename).delete()
+        .then(() => console.log('deleted from firebase'))
+        .catch(err => console.error(err));
       })
       .catch(err => console.error(err));
   }
@@ -475,11 +486,11 @@ const ProductManager = () => {
         products.map(product => {
           return (
             <div className="row-products">
-              <div style={{ "display": "flex", "flexDirection": "column", "maxWidth": "90vw" }}>
+              <div style={{ "display": "flex", "flexDirection": "column", "width": "min(90vw, 300px)" }}>
                 <div className="container-image-products">
                   <img className="image-products" src={product.images.length ? product.images[indexes[product._id]].fireBaseUrl : "/placeholder-image.png"} alt="product"></img>
                 </div>
-                <form data-id={product._id} id="form-add-photo" onSubmit={addPhoto} className="row">
+                <form data-id={product._id} id="form-add-photo" onSubmit={addPhoto} className="row" style={{ "maxWidth": "min(90vw, 300px" }}>
                   <input
                     style={{ "marginBottom": "10px", "width": "70%" }}
                     type="file"
@@ -497,7 +508,7 @@ const ProductManager = () => {
                   }
                 </div>
               </div>
-              <div style={{ "display": "flex", "flexWrap": "wrap", "justifyContent": "spaceEvenly", "width": "850px" }}>
+              <div className="container-details">
                 <div className="details-products">
                   <p><b>Product Name: </b>{product.name}</p>
                   <p><b>Product ID: </b>{product.prodId}</p>
@@ -606,7 +617,7 @@ const ProductManager = () => {
                   }
                   <div style={{ "marginBottom": "10px", "marginTop": "10px", "display": "flex" }}>
                     <div>
-                      <b>Downloads: </b>{product.downloads.length + ' downloads'}
+                      <b>Downloads: </b>{product.downloads.length === 1 ? '1 download' : product.downloads.length + ' downloads'}
                     </div>
                     <div style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto" }}>
                       {
@@ -641,8 +652,8 @@ const ProductManager = () => {
                     product.downloads.length === 0 || showDownloads === product._id ?
                       <form id="form-downloads" data-id={product._id} data-index={product.index} className="column" onSubmit={addDownload} style={{ "display": "flex", "width": "100%", "marginBottom": "20px", "marginTop": "10px" }}>
                         <input style={{ "marginBottom": "10px" }} type="text" placeholder="Title" name="title" required/>
-                        <div className="row">
-                          <input type="file" onChange={handleImageAsFile} />
+                        <div className="row" style={{ "width": "100%" }}>
+                          <input type="file" onChange={handleImageAsFile} style={{ "width": "60%" }}/>
                           <button style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto" }} type="submit">Add</button>
                         </div>
                       </form> : null
