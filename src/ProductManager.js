@@ -13,6 +13,8 @@ const ProductManager = () => {
   const [showSpecs, setShowSpecs] = useState(null);
   const [showDownloads, setShowDownloads] = useState(null);
   const [indexes, setIndexes] = useState({});
+  const [categories, setCategories] = useState({});
+  const [sortedProducts, setSortedProducts] = useState([]);
 
   useEffect(() => {
     getProducts();
@@ -23,8 +25,12 @@ const ProductManager = () => {
       .get('http://192.168.0.4:8000/admin/api/products')
       .then(response => {
         let copy = { ...indexes }
+        let catcopy = { ...categories };
 
         response.data.forEach(product => {
+          if (catcopy[product.category] === undefined) {
+            catcopy[product.category] = 1;
+          }
           if (copy[product._id] === undefined) {
             copy[product._id] = 0;
           } else if (copy[product._id] > product.images.length - 1 && copy[product._id] !== 0) {
@@ -34,8 +40,16 @@ const ProductManager = () => {
           }
         })
 
+        setCategories(catcopy);
         setIndexes(copy)
         setProducts(response.data);
+
+        if (document.getElementById('selector-category').value === "All categories") {
+          setSortedProducts(response.data);
+        } else {
+          let sorted = response.data.filter(product => product.category === document.getElementById('selector-category').value);
+          setSortedProducts(sorted);
+        }
       })
       .catch(err => console.error(err));
   }
@@ -50,9 +64,9 @@ const ProductManager = () => {
 
     const name = e.target.name.value;
     const description = e.target.description.value;
-    const price = e.target.price.value;
     const prodId = e.target.prodId.value;
     const index = products.length;
+    const category = e.target.category.value;
 
     setLoading(true);
 
@@ -80,7 +94,7 @@ const ProductManager = () => {
         .then(fireBaseUrl => {
 
           let images = [{ filename, fireBaseUrl }]
-          let request = { images, name, prodId, description, price, index };
+          let request = { images, name, prodId, description, category, index };
 
           Axios
             .post('http://192.168.0.4:8000/admin/api/products', request)
@@ -113,8 +127,8 @@ const ProductManager = () => {
     let name = e.target.name.value;
     let prodId = e.target.prodId.value;
     let description = e.target.description.value;
-    let price = e.target.price.value;
-    let request = { name, prodId, description, price };
+    let category = e.target.category.value;
+    let request = { name, prodId, description, category };
 
     for (let key in request) {
       if (request[key] === '') {
@@ -129,37 +143,30 @@ const ProductManager = () => {
       })
       .catch(err => console.error(err));
 
-    document.getElementById('form-products-edit').reset();
+    document.getElementById(`form-products-edit-${_id}`).reset();
   }
 
   const deleteHandler = (e) => {
     const _id = e.target.dataset.id;
-    const index = parseInt(e.target.dataset.index);
 
     Axios
       .delete(`http://192.168.0.4:8000/admin/api/products/${_id}`)
       .then(response => {
 
-        products[index].images.forEach(image => {
+        let product = products.filter(product => product._id === _id)[0];
+        let images = product.images;
+        images.forEach(image => {
           storage.ref('products').child(image.filename).delete()
             .then(() => console.log('deleted from firebase'))
             .catch(err => console.error(err));
         })
 
-        products[index].downloads.forEach(download => {
+        let downloads = product.downloads;
+        downloads.forEach(download => {
           storage.ref('products').child(download.filename).delete()
             .then(() => console.log('deleted from firebase'))
             .catch(err => console.error(err));
         })
-
-        for (let i = index + 1; i < products.length; i++) {
-          let id = products[i]._id;
-          let newIndex = i - 1;
-
-          Axios
-            .put(`http://192.168.0.4:8000/admin/api/products/${id}`, { index: newIndex })
-            .catch(err => console.error(err));
-        }
 
         getProducts();
       })
@@ -183,7 +190,7 @@ const ProductManager = () => {
       })
       .catch(err => console.error(err));
 
-    document.getElementById('form-features').reset();
+    document.getElementById(`form-features-${_id}`).reset();
   }
 
   const deleteFeature = (e) => {
@@ -228,7 +235,7 @@ const ProductManager = () => {
       })
       .catch(err => console.error(err));
 
-    document.getElementById('form-specs').reset();
+    document.getElementById(`form-specs-${_id}`).reset();
   }
 
   const deleteSpec = (e) => {
@@ -299,7 +306,7 @@ const ProductManager = () => {
         });
     });
 
-    document.getElementById('form-add-photo').reset();
+    document.getElementById(`form-add-photo-${_id}`).reset();
   }
 
   const nextPhoto = (e) => {
@@ -338,36 +345,6 @@ const ProductManager = () => {
 
         storage.ref('products').child(filename).delete()
           .then(() => console.log('deleted from firebase'))
-          .catch(err => console.error(err));
-      })
-      .catch(err => console.error(err));
-  }
-
-  const moveHandler = (e) => {
-    let index1 = parseInt(e.target.dataset.index);
-    let id1 = products[index1]._id;
-    let index2, id2
-    let action = e.target.dataset.action;
-
-    if (action === 'up' && index1 !== 0) {
-      index2 = parseInt(index1) - 1;
-      id2 = products[index2]._id;
-    } else if (action === 'down' && index1 !== products.length - 1) {
-      index2 = parseInt(index1) + 1;
-      id2 = products[index2]._id;
-    } else {
-      return;
-    }
-
-    Axios
-      .put(`http://192.168.0.4:8000/admin/api/products/${id1}`, { index: index2 })
-      .then(response => {
-
-        Axios
-          .put(`http://192.168.0.4:8000/admin/api/products/${id2}`, { index: index1 })
-          .then(response => {
-            getProducts();
-          })
           .catch(err => console.error(err));
       })
       .catch(err => console.error(err));
@@ -420,7 +397,7 @@ const ProductManager = () => {
         });
     });
 
-    document.getElementById('form-downloads').reset();
+    document.getElementById(`form-downloads-${_id}`).reset();
   }
 
   const showDownloadsHandler = (e) => {
@@ -449,10 +426,20 @@ const ProductManager = () => {
         getProducts();
 
         storage.ref('products').child(filename).delete()
-        .then(() => console.log('deleted from firebase'))
-        .catch(err => console.error(err));
+          .then(() => console.log('deleted from firebase'))
+          .catch(err => console.error(err));
       })
       .catch(err => console.error(err));
+  }
+
+  const changeCategory = (e) => {
+    let category = e.target.value;
+    if (category === "All categories") {
+      setSortedProducts(products);
+    } else {
+      let sorted = products.filter(product => product.category === category);
+      setSortedProducts(sorted);
+    }
   }
 
   return (
@@ -471,7 +458,18 @@ const ProductManager = () => {
         <textarea className="input-products" name="description" placeholder="Description" style={{ "height": "60px" }} />
         <div className="input-products row">
           <input style={{ "width": "40%" }} type="text" name="prodId" placeholder="Product ID" />
-          <input style={{ "width": "40%", "justifySelf": "flexEnd", "margin": "0 0 0 auto" }} type="number" step="0.01" name="price" min="0" placeholder="Price" />
+          <div className="column" style={{ "width": "40%", "justifySelf": "flexEnd", "margin": "0 0 0 auto" }}>
+            <input name="category" type="text" list="categories" placeholder="Category"></input>
+            <datalist id="categories">
+              {
+                Object.keys(categories).map(category => {
+                  return (
+                    <option>{category}</option>
+                  )
+                })
+              }
+            </datalist>
+          </div>
         </div>
         <div className="input-products row" style={{ "flexWrap": "wrap" }}>
           <input
@@ -482,15 +480,29 @@ const ProductManager = () => {
           <button style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto", "height": "21px" }}>Upload Product</button>
         </div>
       </form>
-      {products.length ?
-        products.map(product => {
+      {/* <div className="selector-category"> */}
+        <select id="selector-category" onChange={changeCategory}>
+          <option>All categories</option>
+          {
+            Object.keys(categories).map(category => {
+              return (
+                <option>
+                  {category}
+                </option>
+              )
+            })
+          }
+        </select>
+      {/* </div> */}
+      {sortedProducts.length ?
+        sortedProducts.map((product, index) => {
           return (
             <div className="row-products">
               <div style={{ "display": "flex", "flexDirection": "column", "width": "min(90vw, 300px)" }}>
                 <div className="container-image-products">
                   <img className="image-products" src={product.images.length ? product.images[indexes[product._id]].fireBaseUrl : "/placeholder-image.png"} alt="product"></img>
                 </div>
-                <form data-id={product._id} id="form-add-photo" onSubmit={addPhoto} className="row" style={{ "maxWidth": "min(90vw, 300px" }}>
+                <form data-id={product._id} id={`form-add-photo-${product._id}`} onSubmit={addPhoto} className="row" style={{ "maxWidth": "min(90vw, 300px" }}>
                   <input
                     style={{ "marginBottom": "10px", "width": "70%" }}
                     type="file"
@@ -513,30 +525,29 @@ const ProductManager = () => {
                   <p><b>Product Name: </b>{product.name}</p>
                   <p><b>Product ID: </b>{product.prodId}</p>
                   <p><b>Description: </b>{product.description}</p>
-                  <p><b>Unit Price: </b>${product.price ? product.price.toFixed(2) : null}</p>
+                  <p><b>Category: </b>{product.category}</p>
                   <div style={{ "display": "flex" }}>
-                    <div style={{ "margin": "0 auto 20px 0", "alignSelf": "flexStart" }}>
-                      {
-                        product.index !== 0 ?
-                          <button onClick={moveHandler} data-action="up" data-index={product.index} style={{ "marginRight": "10px" }}>Move Up</button> : null
-                      }
-                      {
-                        product.index !== products.length - 1 ?
-                          <button onClick={moveHandler} data-action="down" data-index={product.index} style={{ "marginRight": "10px" }}>Move Down</button> : null
-                      }
-                    </div>
                     <div style={{ "margin": "0 0 20px auto", "alignSelf": "flexEnd" }}>
                       <button data-id={product._id} onClick={showEditHandler} style={{ "marginRight": "10px" }}>Edit</button>
-                      <button data-index={product.index} data-id={product._id} onClick={deleteHandler}>Delete</button>
+                      <button data-id={product._id} onClick={deleteHandler}>Delete</button>
                     </div>
                   </div>
                   {
                     showEdit === product._id ?
-                      <form id="form-products-edit" data-id={product._id} onSubmit={editProductHandler} style={{ "display": "flex", "flexDirection": "column" }}>
+                      <form id={`form-products-edit-${product._id}`} data-id={product._id} onSubmit={editProductHandler} style={{ "display": "flex", "flexDirection": "column" }}>
                         <input style={{ "marginBottom": "10px" }} type="text" name="name" placeholder="Product Name" />
                         <input style={{ "marginBottom": "10px" }} type="text" name="prodId" placeholder="Product ID" />
                         <textarea style={{ "marginBottom": "10px", "height": "60px", "fontFamily": "Arial" }} name="description" placeholder="Description" />
-                        <input style={{ "marginBottom": "20px" }} type="number" step="0.01" name="price" min="0" placeholder="Price" />
+                        <input style={{ "marginBottom": "10px" }} name="category" type="text" list="categories" placeholder="Category"></input>
+                        <datalist id="categories">
+                          {
+                            Object.keys(categories).map(category => {
+                              return (
+                                <option>{category}</option>
+                              )
+                            })
+                          }
+                        </datalist>
                         <button type="submit" style={{ "margin": "0 0 20px auto", "alignSelf": "flexEnd" }}>Submit Changes</button>
                       </form> :
                       null
@@ -574,7 +585,7 @@ const ProductManager = () => {
                   }
                   {
                     product.features.length === 0 || showFeatures === product._id ?
-                      <form id="form-features" onSubmit={addFeature} data-id={product._id} style={{ "display": "flex", "width": "100%", "marginBottom": "10px", "marginTop": "10px" }}>
+                      <form id={`form-features-${product._id}`} onSubmit={addFeature} data-id={product._id} style={{ "display": "flex", "width": "100%", "marginBottom": "10px", "marginTop": "10px" }}>
                         <input style={{ "width": "80%" }} type="text" name="feature" placeholder="Feature" required></input>
                         <button style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto" }} type="submit">Add</button>
                       </form> : null
@@ -610,7 +621,7 @@ const ProductManager = () => {
                   }
                   {
                     product.specs.length === 0 || showSpecs === product._id ?
-                      <form id="form-specs" onSubmit={addSpec} data-id={product._id} style={{ "display": "flex", "width": "100%", "marginBottom": "20px", "marginTop": "10px" }}>
+                      <form id={`form-specs-${product._id}`} onSubmit={addSpec} data-id={product._id} style={{ "display": "flex", "width": "100%", "marginBottom": "20px", "marginTop": "10px" }}>
                         <input style={{ "width": "80%" }} type="text" name="spec" placeholder="Spec" required></input>
                         <button style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto" }} type="submit">Add</button>
                       </form> : null
@@ -641,7 +652,7 @@ const ProductManager = () => {
                                   {download.title}
                                 </a>
                               </li>
-                              <button data-id={product._id} data-index={index} data-prodindex={product.index} onClick={deleteDownload} style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto", "height": "21px" }}>Delete</button>
+                              <button data-id={product._id} data-index={index} data-prodindex={index} onClick={deleteDownload} style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto", "height": "21px" }}>Delete</button>
                             </div>
                           )
                         })
@@ -650,10 +661,10 @@ const ProductManager = () => {
                   }
                   {
                     product.downloads.length === 0 || showDownloads === product._id ?
-                      <form id="form-downloads" data-id={product._id} data-index={product.index} className="column" onSubmit={addDownload} style={{ "display": "flex", "width": "100%", "marginBottom": "20px", "marginTop": "10px" }}>
-                        <input style={{ "marginBottom": "10px" }} type="text" placeholder="Title" name="title" required/>
+                      <form id={`form-downloads-${product._id}`} data-id={product._id} data-index={index} className="column" onSubmit={addDownload} style={{ "display": "flex", "width": "100%", "marginBottom": "20px", "marginTop": "10px" }}>
+                        <input style={{ "marginBottom": "10px" }} type="text" placeholder="Title" name="title" required />
                         <div className="row" style={{ "width": "100%" }}>
-                          <input type="file" onChange={handleImageAsFile} style={{ "width": "60%" }}/>
+                          <input type="file" onChange={handleImageAsFile} style={{ "width": "60%" }} />
                           <button style={{ "justifySelf": "flexEnd", "margin": "0 0 0 auto" }} type="submit">Add</button>
                         </div>
                       </form> : null

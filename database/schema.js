@@ -8,10 +8,9 @@ const productSchema = new mongoose.Schema({
   name: String,
   prodId: String,
   description: String,
-  price: Number,
+  category: String,
   features: [String],
   specs: [String],
-  index: Number,
   downloads: [{
     fireBaseUrl: String,
     filename: String,

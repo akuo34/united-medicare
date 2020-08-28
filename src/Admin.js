@@ -27,16 +27,6 @@ const Admin = () => {
 
   }, [user]);
 
-  const clearCookie = () => {
-    Axios
-      .get('/clear-cookie')
-      .then(response => {
-        setUser(response.data.screen);
-        window.location.reload();
-      })
-      .catch(err => console.error(err));
-  }
-
   const auth = (username, password) => {
     Axios
       .get('/authenticate', { auth: { username, password } })
@@ -60,8 +50,6 @@ const Admin = () => {
     auth(email, password);
 
     document.getElementById('form-login').reset();
-    // eslint-disable-next-line no-restricted-globals
-    // location.reload();
   };
 
   const toolbarHandler = () => {
@@ -73,7 +61,7 @@ const Admin = () => {
   }
 
   const returnHome = () => {
-    window.location = "http://localhost:3000";
+    window.location = "http://192.168.0.4:3000";
   }
 
   const logout = () => {

@@ -364,6 +364,19 @@ p {
   height: 50px;
 }
 
+#selector-category {
+  margin-bottom: calc(20px + 1vw);
+  outline: none;
+  width: 150px;
+}
+
+#selector-category-client {
+  position: fixed;
+  top: calc(10vh + 20px);
+  right: 20px;
+  outline: none;
+}
+
 /* For small devices */
 
 @media only screen and (max-device-width: 600px) {
@@ -433,6 +446,17 @@ p {
     justify-self: flex-end;
     margin: auto 0 auto auto;
   }
+
+  #selector-category-client {
+    width: 150px;
+    left: calc(50vw - 75px);
+    background-color: white;
+    outline: none;
+  }
+
+  .buffer {
+    margin-top: 60px;
+  }
 }
 
 @media only screen and (max-device-width: 731px) {
@@ -443,7 +467,6 @@ p {
     width: 95%;
     justify-content: center;
     margin-bottom: 40px;
-    /* border: 1px solid blue; */
   } 
 
 }
