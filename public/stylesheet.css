@@ -345,7 +345,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 1s ease;
+  transition: all 0.35s ease;
 }
 
 .modal-image {
@@ -354,7 +354,7 @@ p {
   object-fit: contain;
   z-index: 9;
   margin: auto;
-  transition: all 1s ease;
+  transition: all 0.35s ease;
 }
 
 .modal-background {
@@ -370,18 +370,17 @@ p {
 .modal-hidden {
   visibility: hidden;
   opacity: 0;
-  transition: all 1s ease;
+  transition: all 0.35s ease;
 }
 
 .fadeout {
   opacity: 0;
-  transition: all 1s ease;
+  transition: all 0.35s ease;
 }
 
 .active {
   opacity: 100%;
-  /* visibility: visible; */
-  transition: all 1s ease;
+  transition: all 0.35s ease;
 }
 /* For small devices */
 

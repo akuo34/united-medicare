@@ -20,6 +20,8 @@ const Products = () => {
 
           let product = response.data.filter(product => product._id === id)[0];
           setShowProduct(product);
+        } else {
+          setShowProduct(null);
         }
       })
       .catch(err => console.error(err));
@@ -40,26 +42,23 @@ const Products = () => {
 
   const modalHandler = (e) => {
     if (showModal) {
-      setShowModal(false);
       setAnimation('fadeout');
       setAnimation('modal-hidden');
+      setShowModal(false);
       document.body.style.overflow = "auto";
     } else {
-      setShowModal(true);
       setAnimation('active');
+      setShowModal(true);
       document.body.style.overflow = "hidden";
     }
   }
 
   return (
     <div className="page-admin">
-      {
-        showModal ?
-        <div onClick={modalHandler} className={animation === "active" ? "modal active" : `modal ${animation}` } >
-          <img className={animation === "active" ? "modal-image active" : `modal-image ${animation}`} src={showProduct && showProduct.images.length ? showProduct.images[index].fireBaseUrl : null} alt="modal_image" />
-          <div className="modal-background"></div>
-        </div> : null
-      }
+      <div onClick={modalHandler} className={animation === "active" ? "modal active" : `modal ${animation}` } >
+        <img onClick={modalHandler} className={animation === "active" ? "modal-image active" : `modal-image ${animation}`} src={showProduct && showProduct.images.length ? showProduct.images[index].fireBaseUrl : null} alt="modal_image" />
+        <div className={animation === "active" ? "modal-background" : `modal-background ${animation}` }></div>
+      </div>
       <h2 style={{ "marginBottom": "calc(20px + 1vw)" }}>{ showProduct ? "Product Details" : "Products" }</h2>
       <div className="grid">
         {

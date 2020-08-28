@@ -31,8 +31,8 @@ module.exports = {
       .catch(err => res.status(404).send(err));
   },
   postAbout: (req, res) => {
-    const { images, about } = req.body;
-    model.postAbout(images, about)
+    const { images, about, phone, email } = req.body;
+    model.postAbout(images, about, phone, email)
       .then(() => res.status(201).send('posted to database'))
       .catch(err => res.status(400).send(err));
   },

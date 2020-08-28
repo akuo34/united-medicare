@@ -21,12 +21,19 @@ const App = () => {
 
   const [showToolbar, setShowToolbar] = useState(false);
 
-  const toolbarHandler = () => {
+  const toolbarHandler = (products) => {
+    if (products) {
+      window.location.href = "http://192.168.0.4:3000/products"
+    }
     if (showToolbar) {
       setShowToolbar(false);
     } else {
       setShowToolbar(true);
     }
+  }
+
+  const refreshProducts = () => {
+    window.location.href = "http://192.168.0.4:3000/products";
   }
 
   return (
@@ -39,26 +46,19 @@ const App = () => {
                 <Link className="link trademark" to="/">United Medi-Care Inc.</Link>
               </div>
               <div className="container-links">
-                <Link className="link" to="/">Home</Link>
-                <Link className="link" to="/about">About</Link>
-                <Link className="link" to="/products">Products</Link>
+                <Link className="link" to="/">About</Link>
+                <Link className="link" onClick={refreshProducts} to="/products">Products</Link>
                 <Link className="link" to="/contact">Contact</Link>
               </div>
-              <img onClick={toolbarHandler} className="hamburger" src="/hamburger_button_white.svg" alt="hamburger button" />
+              <img onClick={() => toolbarHandler(false)} className="hamburger" src="/hamburger_button_white.svg" alt="hamburger button" />
             </div>
             <div className={showToolbar ? "container-links-small-device" : "container-links-small-device hidden"}>
-              <Link onClick={toolbarHandler} className="link dropdown" to="/">Home</Link>
-              <Link onClick={toolbarHandler} className="link dropdown" to="/about">About</Link>
-              <Link onClick={toolbarHandler} className="link dropdown" to="/products">Products</Link>
-              <Link onClick={toolbarHandler} className="link dropdown" to="/contact">Contact</Link>
+              <Link onClick={() => toolbarHandler(false)} className="link dropdown" to="/">About</Link>
+              <Link onClick={() => toolbarHandler(true)} className="link dropdown" to="/products">Products</Link>
+              <Link onClick={() => toolbarHandler(false)} className="link dropdown" to="/contact">Contact</Link>
             </div>
             <div style={{"height":"10vh"}}></div>
             <Switch>
-              {/* <Route path="/admin" render={() => <Admin />} />
-              <Route path="/contact" render={() => <Contact />} />
-              <Route path="/products" render={() => <Products />} />
-              <Route path="/about" render={() => <About />} />
-              <Route exact path="/" render={() => <Home />} /> */}
               <Route path="/admin">
                 <Admin />
               </Route>
@@ -68,11 +68,8 @@ const App = () => {
               <Route path="/products">
                 <Products />
               </Route>
-              <Route path="/about">
-                <About />
-              </Route>
               <Route exact path="/">
-                <Home />
+                <About />
               </Route>
             </Switch>
           </div>

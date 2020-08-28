@@ -40,6 +40,8 @@ const AboutManager = () => {
     e.preventDefault();
 
     const about = e.target.about.value;
+    const phone = e.target.phone.value;
+    const email = e.target.email.value;
 
     setLoading(true);
     console.log('start of upload');
@@ -66,7 +68,7 @@ const AboutManager = () => {
         .then(fireBaseUrl => {
 
           let images = [{ fireBaseUrl, filename }];
-          let request = { images, about };
+          let request = { images, about, phone, email };
 
           Axios
             .post('http://192.168.0.4:8000/admin/api/about', request)
