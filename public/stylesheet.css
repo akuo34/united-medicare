@@ -14,7 +14,7 @@ h2 {
   text-align: center;
   font-family: josefin-sans-bold;
   margin-top: calc(20px + 1vw);
-  margin-bottom: 0px;
+  margin-bottom: calc(20px + 1vw);
   font-size: calc(16px + 0.8vw);
   color: rgb(54, 54, 54);
 }
@@ -112,46 +112,17 @@ p {
   position: absolute;
 }
 
-.container-banner {
-  width: 100vw;
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.banner {
-  height: 90vh;
-  width: 100%;
-  object-fit: cover;
-  opacity: .7;
-  z-index: 1;
-  position: absolute;
-  top: 10vh;
-}
-
-.message-banner {
-  margin: 0 auto 100px auto;
-  z-index: 2;
-  font-family: josefin-sans-bold;
-  font-size: calc(32px + 2vw);
-  color: white;
-  text-align: center;
-  max-width: 80vw;
-}
-
 .button-see-products {
   font-family: josefin-sans-bold;
-  margin: 80px auto 0 auto;
+  justify-self: flex-end;
+  margin: 0 0 0 auto;
   background-color: rgb(155, 13, 13);
   border-radius: 25px;
   outline: none;
   color: white;
-  height: 50px;
-  width: 150px;
+  height: 40px;
+  width: 180px;
   font-size: 16px;
-  z-index: 2;
 }
 
 /* Admin Landing */
@@ -217,7 +188,7 @@ p {
   width: min(500px, 90%);
   background-color: rgb(196, 193, 193);
   padding-top: 20px;
-  margin: calc(20px + 1vw) auto;
+  margin: 0 auto calc(20px + 1vw) auto;
 }
 
 .input-products {
@@ -229,11 +200,9 @@ p {
 
 .row-products {
   display: flex;
-  /* flex-wrap: wrap; */
   width: 95%;
   justify-content: center;
   margin-bottom: 40px;
-  /* border: 1px solid blue; */
 } 
 
 .row-about {
@@ -242,7 +211,6 @@ p {
   width: 95%;
   justify-content: space-evenly;
   margin-bottom: 40px;
-  /* border: 1px solid blue; */
 } 
 
 .container-image-products {
@@ -306,7 +274,6 @@ p {
   width: 95vw;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  /* border: 1px solid green; */
 }
 
 .product-grid {
@@ -382,6 +349,21 @@ p {
   opacity: 100%;
   transition: all 0.35s ease;
 }
+
+.container-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: min(90vw, 300px);
+  height: 300px;
+  background-color: rgb(236, 234, 234);
+}
+
+.icon-contact {
+  height: 50px;
+}
+
 /* For small devices */
 
 @media only screen and (max-device-width: 600px) {

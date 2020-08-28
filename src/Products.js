@@ -53,13 +53,17 @@ const Products = () => {
     }
   }
 
+  const toContact = () => {
+    window.location = "http://192.168.0.4:3000/contact";
+  }
+
   return (
     <div className="page-admin">
       <div onClick={modalHandler} className={animation === "active" ? "modal active" : `modal ${animation}` } >
         <img onClick={modalHandler} className={animation === "active" ? "modal-image active" : `modal-image ${animation}`} src={showProduct && showProduct.images.length ? showProduct.images[index].fireBaseUrl : null} alt="modal_image" />
         <div className={animation === "active" ? "modal-background" : `modal-background ${animation}` }></div>
       </div>
-      <h2 style={{ "marginBottom": "calc(20px + 1vw)" }}>{ showProduct ? "Product Details" : "Products" }</h2>
+      <h2>{ showProduct ? "Product Details" : "Products" }</h2>
       <div className="grid">
         {
           !showProduct ?
@@ -69,7 +73,6 @@ const Products = () => {
                 <img className="image-grid" data-id={product._id} onClick={viewProduct} src={product.images[0].fireBaseUrl} alt="product" />
                 <div className="product-header-price">
                   <h4 data-id={product._id} onClick={viewProduct} className="product-name">{product.name}</h4>
-                  <p data-id={product._id} onClick={viewProduct} className="price" style={{ "fontSize": "24px" }}><b>${product.price}</b></p>
                 </div>
               </div>
             )
@@ -99,8 +102,8 @@ const Products = () => {
                 <b>Product ID: </b>{showProduct.prodId}
               </p>
               <p className="paragraph-about" style={{ "display": "flex", "alignItems": "flexStart" }}>
-                <b>List Price: </b>
-                <span style={{ "fontSize": "24px", "marginLeft": "20px", "fontFamily": "helvetica", "fontWeight": "bold" }}>${showProduct.price}</span>
+                <b>Price: </b>
+                <button className="button-see-products" onClick={toContact}>Email for pricing</button>
               </p>
               <p className="paragraph-about">
                 {showProduct.description}

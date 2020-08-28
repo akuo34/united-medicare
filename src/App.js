@@ -6,16 +6,10 @@ import {
   Link
 } from "react-router-dom";
 
-import Home from './Home';
 import About from './About';
 import Products from './Products';
 import Contact from './Contact';
 import Admin from './Admin';
-// const Home = React.lazy(() => import('./Home'));
-// const About = React.lazy(() => import('./About'));
-// const Products = React.lazy(() => import('./Products'));
-// const Contact = React.lazy(() => import('./Contact'));
-// const Admin = React.lazy(() => import('./Admin'));
 
 const App = () => {
 

@@ -9,7 +9,6 @@ import Axios from 'axios';
 
 import Login from './Login';
 import ProductManager from './ProductManager';
-import HomeManager from './HomeManager';
 import AboutManager from './AboutManager';
 
 const Admin = () => {
@@ -98,11 +97,9 @@ const Admin = () => {
               <div className="container-page">
                 <div className="toolbar-main admin">
                   <div className="header-company">
-                    {/* <Link className="link trademark" to="/">United Medicare</Link> */}
                     <span onClick={returnHome} className="link trademark">United Medi-Care Inc.</span>
                   </div>
                   <div className="container-links">
-                    <Link className="link" to="/admin/home">Home</Link>
                     <Link className="link" to="/admin/about">About</Link>
                     <Link className="link" to="/admin">Products</Link>
                     <span onClick={logout} className="link">Logout</span>
@@ -110,20 +107,11 @@ const Admin = () => {
                   <img onClick={toolbarHandler} className="hamburger" src="/hamburger_button_white.svg" alt="hamburger button" />
                 </div>
                 <div className={showToolbar ? "container-links-small-device" : "container-links-small-device hidden"}>
-                  <Link onClick={toolbarHandler} className="link dropdown" to="/admin/home">Home</Link>
                   <Link onClick={toolbarHandler} className="link dropdown" to="/admin/about">About</Link>
                   <Link onClick={toolbarHandler} className="link dropdown" to="/admin">Products</Link>
                   <span onClick={logout} className="link dropdown">Log out</span>
                 </div>
                 <Switch>
-                  {/* <Route path="/admin" render={() => <Admin />} />
-                      <Route path="/contact" render={() => <Contact />} />
-                      <Route path="/products" render={() => <Products />} />
-                      <Route path="/about" render={() => <About />} />
-                      <Route exact path="/" render={() => <Home />} /> */}
-                  <Route path="/admin/home">
-                    <HomeManager />
-                  </Route>
                   <Route path="/admin/about">
                     <AboutManager />
                   </Route>

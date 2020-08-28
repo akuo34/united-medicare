@@ -16,7 +16,7 @@ const About = () => {
   return (
     <div className="page-admin">
       <h2>About the company</h2>
-      <div className="row-about" style={{ "marginTop": "calc(20px + 1vw)" }}>
+      <div className="row-about">
         <div className="column">
           {
             about ?
