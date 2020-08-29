@@ -29,7 +29,8 @@
     "eject": "react-scripts eject",
     "backend": "nodemon server/index.js",
     "backup": "node database/backup.js",
-    "loader": "node database/loader.js"
+    "loader": "node database/loader.js",
+    "ubuntu": "ssh -i united_medicare.pem ubuntu@ec2-54-215-240-232.us-west-1.compute.amazonaws.com"
   },
   "proxy": "http://localhost:8000",
   "eslintConfig": {

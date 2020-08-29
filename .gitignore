@@ -25,3 +25,5 @@ yarn-error.log*
 .env
 
 /database/data
+
+united_medicare.pem
