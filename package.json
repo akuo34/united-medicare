@@ -27,7 +27,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "backend": "nodemon server/index.js"
+    "backend": "nodemon server/index.js",
+    "backup": "node database/backup.js",
+    "loader": "node database/loader.js"
   },
   "proxy": "http://localhost:8000",
   "eslintConfig": {
