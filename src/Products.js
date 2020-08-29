@@ -14,7 +14,7 @@ const Products = () => {
 
   useEffect(() => {
     Axios
-      .get('http://192.168.0.4:8000/admin/api/products')
+      .get('/admin/api/products')
       .then(response => {
         setProducts(response.data);
         setSortedProducts(response.data);
@@ -43,7 +43,7 @@ const Products = () => {
   const viewProduct = (e) => {
     let _id = e.target.dataset.id;
 
-    window.location = `http://192.168.0.4:3000/products/${_id}`;
+    window.location = `/products/${_id}`;
   }
 
   const selectPhoto = (e) => {
@@ -66,7 +66,7 @@ const Products = () => {
   }
 
   const toContact = () => {
-    window.location = "http://192.168.0.4:3000/contact";
+    window.location = '/contact';
   }
 
   const changeCategory = (e) => {

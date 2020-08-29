@@ -17,7 +17,7 @@ const App = () => {
 
   const toolbarHandler = (products) => {
     if (products) {
-      window.location.href = "http://192.168.0.4:3000/products"
+      window.location = '/products';
     }
     if (showToolbar) {
       setShowToolbar(false);
@@ -27,7 +27,7 @@ const App = () => {
   }
 
   const refreshProducts = () => {
-    window.location.href = "http://192.168.0.4:3000/products";
+    window.location = '/products';
   }
 
   return (
@@ -41,7 +41,7 @@ const App = () => {
               </div>
               <div className="container-links">
                 <Link className="link" to="/">About</Link>
-                <Link className="link" onClick={refreshProducts} to="/products">Products</Link>
+                <Link className="link" onClick={refreshProducts} to='/products'>Products</Link>
                 <Link className="link" to="/contact">Contact</Link>
               </div>
               <img onClick={() => toolbarHandler(false)} className="hamburger" src="/hamburger_button_white.svg" alt="hamburger button" />

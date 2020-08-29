@@ -61,7 +61,7 @@ const Admin = () => {
   }
 
   const returnHome = () => {
-    window.location = "http://192.168.0.4:3000";
+    window.location = '/';
   }
 
   const logout = () => {

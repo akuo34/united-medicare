@@ -16,7 +16,7 @@ const AboutManager = () => {
 
   const getAbout = () => {
     Axios
-      .get('http://192.168.0.4:8000/admin/api/about')
+      .get('/admin/api/about')
       .then(response => {
         if (response.data.length && index > response.data[0].images.length - 1 && index > 0) {
           setIndex(index - 1);
@@ -71,7 +71,7 @@ const AboutManager = () => {
           let request = { images, about, phone, email };
 
           Axios
-            .post('http://192.168.0.4:8000/admin/api/about', request)
+            .post('/admin/api/about', request)
             .then(response => {
               getAbout();
               setImageAsFile('');
@@ -117,7 +117,7 @@ const AboutManager = () => {
           images.push({ filename, fireBaseUrl });
 
           Axios
-            .put(`http://192.168.0.4:8000/admin/api/about/${_id}`, { images })
+            .put(`/admin/api/about/${_id}`, { images })
             .then(response => {
               getAbout();
               setImageAsFile('');
@@ -152,7 +152,7 @@ const AboutManager = () => {
     images.splice(index, 1);
 
     Axios
-      .put(`http://192.168.0.4:8000/admin/api/about/${_id}`, { images })
+      .put(`/admin/api/about/${_id}`, { images })
       .then(response => {
         getAbout();
 
@@ -179,7 +179,7 @@ const AboutManager = () => {
     }
 
     Axios
-      .put(`http://192.168.0.4:8000/admin/api/about/${_id}`, request)
+      .put(`/admin/api/about/${_id}`, request)
       .then(response => {
         getAbout();
       })
@@ -192,7 +192,7 @@ const AboutManager = () => {
     let _id = about._id;
 
     Axios
-      .delete(`http://192.168.0.4:8000/admin/api/about/${_id}`)
+      .delete(`/admin/api/about/${_id}`)
       .then(response => {
 
         about.images.forEach(image => {
