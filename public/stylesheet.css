@@ -60,7 +60,7 @@ p {
 }
 
 .toolbar-main {
-  background-color: rgb(105, 105, 248);
+  background-color: rgba(50, 50, 230);
   width: 100vw;
   height: 10vh;
   display: flex;
@@ -411,7 +411,7 @@ p {
     border: 2px solid grey;
     top: 10vh;
     right: 0;
-    background-color: rgb(171, 171, 250);
+    background-color: rgb(134, 134, 250);
     display: flex;
     flex-direction: column;
     align-items: center;
