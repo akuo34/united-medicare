@@ -46,11 +46,13 @@ const App = () => {
               </div>
               <img onClick={() => toolbarHandler(false)} className="hamburger" src="/hamburger_button_white.svg" alt="hamburger button" />
             </div>
-            <div className={showToolbar ? "container-links-small-device" : "container-links-small-device hidden"}>
-              <Link onClick={() => toolbarHandler(false)} className="link dropdown" to="/">About</Link>
-              <Link onClick={() => toolbarHandler(true)} className="link dropdown" to="/products">Products</Link>
-              <Link onClick={() => toolbarHandler(false)} className="link dropdown" to="/contact">Contact</Link>
-            </div>
+              <div className={showToolbar ? "container-links-small-device" : "container-links-small-device hidden"}>
+                <Link onClick={() => toolbarHandler(false)} className="link dropdown" to="/">About</Link>
+                <Link onClick={() => toolbarHandler(true)} className="link dropdown" to="/products">Products</Link>
+                <Link onClick={() => toolbarHandler(false)} className="link dropdown" to="/contact">Contact</Link>
+              </div>
+              <div onClick={() => toolbarHandler(false)} className={showToolbar ? "clickable-bg" : "clickable-bg-hidden"}>
+              </div>
             <div style={{"height":"10vh"}}></div>
             <Switch>
               <Route path="/admin">
