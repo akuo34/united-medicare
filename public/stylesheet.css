@@ -284,7 +284,6 @@ p {
   margin: 0 auto 20px auto;
   justify-content: flex-start;
   align-items: flex-start;
-  border: 1px solid blue;
   overflow: hidden;
 }
 
