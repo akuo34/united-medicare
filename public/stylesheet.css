@@ -474,7 +474,6 @@ p {
     object-fit: cover;
     align-self: center;
     margin: 0 auto 10px auto;
-    border: 1px solid red;
   }
 }
 
