@@ -51,9 +51,9 @@ const App = () => {
                 <Link onClick={() => toolbarHandler(true)} className="link dropdown" to="/products">Products</Link>
                 <Link onClick={() => toolbarHandler(false)} className="link dropdown" to="/contact">Contact</Link>
               </div>
+            <div style={{"height":"10vh"}}></div>
               <div onClick={() => toolbarHandler(false)} className={showToolbar ? "clickable-bg" : "clickable-bg-hidden"}>
               </div>
-            <div style={{"height":"10vh"}}></div>
             <Switch>
               <Route path="/admin">
                 <Admin />
