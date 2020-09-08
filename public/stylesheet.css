@@ -248,6 +248,7 @@ p {
   margin-bottom: 20px;
   display: flex;
   align-items: flex-start;
+  overflow: hidden;
 }
 
 .container-image-about-admin {
@@ -277,16 +278,18 @@ p {
 }
 
 .product-grid {
-  width: min(90vw, 400px);
+  width: min(90vw, 340px);
   display: flex;
   flex-direction: column;
   margin: 0 auto 20px auto;
   justify-content: flex-start;
   align-items: flex-start;
+  border: 1px solid blue;
+  overflow: hidden;
 }
 
 .image-grid {
-  max-width: min(400px, 90vw);
+  max-width: min(300px, 90vw);
   min-height: 120px;
   max-height: 220px;
   height: calc((100vh - (10vh + 2.8vw + 220px))/2);
@@ -472,6 +475,7 @@ p {
     object-fit: cover;
     align-self: center;
     margin: 0 auto 10px auto;
+    border: 1px solid red;
   }
 }
 
